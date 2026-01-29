@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import AuthLayout from "../components/AuthHome";
 import illustration from "../assets/forgetpass.png";
+import toast from "react-hot-toast";
+
+
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +20,9 @@ const ForgotPassword = () => {
 
     try {
       setLoading(true);
-      await api.post("/auth/forgot-password", { email });
+      const res = await api.post("/auth/forgot-password", { email });
+      // SHOW OTP IN TOAST
+      toast.success(`Your OTP is ${res.data.otp}`);
 
       const expiryTime = Date.now() + 10 * 60 * 1000;
       localStorage.setItem("otpExpiry", expiryTime);

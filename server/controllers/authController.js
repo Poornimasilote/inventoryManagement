@@ -36,19 +36,15 @@ const signup = async (req, res) => {
 
       await exists.save();
 
-      try {
-        await sendEmail(
-          email,
-          "Verify your account",
-          `<h3>Your OTP is: ${otp}</h3>`,
-        );
-      } catch (emailErr) {
-        console.error("Email sending failed:", emailErr.message);
-        // DO NOT block signup
-      }
+      sendEmail(
+        email,
+        "Verify your account",
+        `<h3>Your OTP is: ${otp}</h3>`,
+      ).catch(() => {});
 
       return res.status(200).json({
-        message: "OTP resent. Please verify your email.",
+        message: "OTP generated",
+        otp,
         requiresVerification: true,
       });
     }
@@ -74,13 +70,13 @@ const signup = async (req, res) => {
       otpExpiry,
     });
 
-    await sendEmail(
+    sendEmail(
       email,
       "Verify your account",
       `<h3>Your OTP is: ${otp}</h3>`,
-    );
+    ).catch(() => {});
 
-    res.status(201).json({ message: "OTP sent to email" });
+    res.status(201).json({ message: "OTP generated", otp, });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -186,13 +182,13 @@ const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    await sendEmail(
+    sendEmail(
       email,
-      "Password Reset OTP",
+      "Verify your account",
       `<h3>Your OTP is: ${otp}</h3>`,
-    );
+    ).catch(() => {});
 
-    res.json({ message: "OTP sent to email" });
+    res.json({  message: "OTP generated",otp });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -5,6 +5,8 @@ import AuthLayout from "../components/AuthHome";
 import illustration from "../assets/hero.png";
 import openeye from "../assets/openeye.png";
 import closeeye from "../assets/closeeye.png";
+import toast from "react-hot-toast";
+
 
 const Signup = () => {
 
@@ -42,11 +44,14 @@ const Signup = () => {
 
       const normalizedEmail = email.trim().toLowerCase();
 
-      await api.post("/auth/signup", {
+      const res = await api.post("/auth/signup", {
         name,
         email: normalizedEmail,
         password,
       });
+
+      // SHOW OTP IN TOAST
+      toast.success(`Your OTP is ${res.data.otp}`);
 
       // store OTP expiry for cooldown
       const expiryTime = Date.now() + 10 * 60 * 1000;

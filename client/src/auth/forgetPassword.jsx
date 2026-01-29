@@ -21,8 +21,12 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
       const res = await api.post("/auth/forgot-password", { email });
+
       // SHOW OTP IN TOAST
-      toast.success(`Your OTP is ${res.data.otp}`);
+      toast.success(`Your OTP is ${res.data.otp}`, {
+        duration: 20000, 
+      });
+
 
       const expiryTime = Date.now() + 10 * 60 * 1000;
       localStorage.setItem("otpExpiry", expiryTime);

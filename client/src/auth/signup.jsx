@@ -51,7 +51,9 @@ const Signup = () => {
       });
 
       // SHOW OTP IN TOAST
-      toast.success(`Your OTP is ${res.data.otp}`);
+       toast.success(`Your OTP is ${res.data.otp}`, {
+        duration: 20000, 
+      });
 
       // store OTP expiry for cooldown
       const expiryTime = Date.now() + 10 * 60 * 1000;

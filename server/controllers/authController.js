@@ -36,11 +36,16 @@ const signup = async (req, res) => {
 
       await exists.save();
 
-      await sendEmail(
-        email,
-        "Verify your account",
-        `<h3>Your OTP is: ${otp}</h3>`,
-      );
+      try {
+        await sendEmail(
+          email,
+          "Verify your account",
+          `<h3>Your OTP is: ${otp}</h3>`,
+        );
+      } catch (emailErr) {
+        console.error("Email sending failed:", emailErr.message);
+        // DO NOT block signup
+      }
 
       return res.status(200).json({
         message: "OTP resent. Please verify your email.",

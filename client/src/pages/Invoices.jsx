@@ -16,7 +16,9 @@ const Invoices = () => {
   const [loading, setLoading] = useState(false);
   const [invoiceStats, setInvoiceStats] = useState(null);
 
-  /* ---------------- Load invoice stats (ALL invoices) ---------------- */
+  
+  
+  // Load invoice stats
  const loadStats = useCallback(async () => {
   try {
     const data = await getInvoiceStats();
@@ -60,7 +62,7 @@ useEffect(() => {
 
 
   
-  /* ---------------- Debounce search ---------------- */
+  // Debounce Search
   useEffect(() => {
     const t = setTimeout(() => {
       setDebouncedSearch(search);
@@ -73,7 +75,6 @@ useEffect(() => {
 
   return (
     <div className="invoice-container">
-      {/* HEADER */}
       <div className="invoice-top-bar">
         <h4>Invoices</h4>
 
@@ -87,7 +88,7 @@ useEffect(() => {
 
       <hr />
 
-      {/* ================= LIST VIEW ================= */}
+      {/* LIST VIEW  */}
       <>
         {/* STATS */}
         <div className="card">

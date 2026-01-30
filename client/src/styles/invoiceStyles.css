@@ -78,8 +78,9 @@ hr {
   margin-top: 8px;
 }
 
-/* TABLE */
 
+
+/* TABLE */
 .invoice-table-header {
   display: flex;
   justify-content: space-between;
@@ -157,7 +158,6 @@ hr {
 }
 
 /* ACTION MENU (⋮) */
-
 .invoice-action-cell {
   position: relative;
 }
@@ -201,8 +201,8 @@ hr {
   font-weight: 500;
 }
 
-/* MODAL BASE */
 
+/* MODAL BASE */
 .invoice-modal {
   width: 650px;
   min-height: 85vh;
@@ -397,13 +397,13 @@ hr {
     visibility: hidden;
   }
 
-  /* Show ONLY invoice modal */
+  /* Show only invoice modal */
   .invoice-modal,
   .invoice-modal * {
     visibility: visible;
   }
 
-  /* Remove overlay effect */
+
   .modal-overlay {
     position: static;
     background: none;
@@ -531,12 +531,11 @@ hr {
     overflow-x: hidden;
   }
 
-  /* ---------- ACTION MENU ---------- */
   .invoice-action-menu {
     right: 8px;
   }
 
-  /* ---------- MODAL ---------- */
+ 
   .invoice-modal {
     width: 80%;
     max-height: 90vh;
@@ -567,7 +566,7 @@ hr {
   }
 }
 
-/* ---------- SMALL MOBILE ---------- */
+
 @media (max-width: 480px) {
   .invoice-stats {
     grid-template-columns: 1fr;

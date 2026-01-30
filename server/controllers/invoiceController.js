@@ -1,9 +1,9 @@
 const Invoice = require("../models/invoiceModel");
 const PDFDocument = require("pdfkit");
 
-// =======================
+
+
 // GET INVOICES (LIST)
-// =======================
 const getInvoices = async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
@@ -34,9 +34,8 @@ const getInvoices = async (req, res) => {
   }
 };
 
-// =======================
+
 // UPDATE INVOICE STATUS
-// =======================
 const updateInvoiceStatus = async (req, res) => {
   try {
     const invoice = await Invoice.findOne({
@@ -60,9 +59,8 @@ const updateInvoiceStatus = async (req, res) => {
   }
 };
 
-// =======================
+
 // DELETE INVOICE
-// =======================
 const deleteInvoice = async (req, res) => {
   try {
     const invoice = await Invoice.findOne({
@@ -81,9 +79,8 @@ const deleteInvoice = async (req, res) => {
   }
 };
 
-// =======================
+
 // VIEW SINGLE INVOICE
-// =======================
 const getSingleInvoice = async (req, res) => {
   try {
     const invoice = await Invoice.findOne({
@@ -101,9 +98,8 @@ const getSingleInvoice = async (req, res) => {
   }
 };
 
-// =======================
+
 // DOWNLOAD INVOICE PDF
-// =======================
 const downloadInvoice = async (req, res) => {
   try {
     const invoice = await Invoice.findOne({
@@ -176,9 +172,8 @@ const downloadInvoice = async (req, res) => {
   }
 };
 
-// =======================
+
 // INVOICE STATS
-// =======================
 const getStats = async (req, res) => {
   try {
     const last7Days = new Date();

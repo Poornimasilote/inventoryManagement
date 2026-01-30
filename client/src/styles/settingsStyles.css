@@ -63,7 +63,7 @@
   margin-top: 10px;
 }
 
-/* ACTIONS */
+
 .password-field {
   position: relative;
   width: 50%;
@@ -140,7 +140,7 @@
  
 }
 
-/* ---------- SMALL TABLET ---------- */
+
 @media (max-width: 869px) {
 
   .settings-container {
@@ -193,7 +193,7 @@
   }
 }
 
-/* ---------- SMALL MOBILE ---------- */
+
 @media (max-width: 480px) {
   .settings-card {
     margin-right: -10px;

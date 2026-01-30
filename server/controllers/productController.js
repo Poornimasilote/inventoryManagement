@@ -22,9 +22,8 @@ const PRODUCT_CATEGORIES = [
   "Other",
 ];
 
-// =======================
-// GET PRODUCTS (USER SAFE)
-// =======================
+
+// GET PRODUCTS 
 const getProducts = async (req, res) => {
   try {
     const page = Number(req.query.page) || 1;
@@ -54,9 +53,9 @@ const getProducts = async (req, res) => {
   }
 };
 
-// =======================
+
+
 // CREATE PRODUCT (PURCHASE)
-// =======================
 const createProduct = async (req, res) => {
   try {
     const {
@@ -133,9 +132,8 @@ const createProduct = async (req, res) => {
   }
 };
 
-// =======================
+
 // CSV UPLOAD (PURCHASE)
-// =======================
 const uploadCSVProducts = async (req, res) => {
   try {
     const fileData = fs.readFileSync(req.file.path, "utf8");
@@ -291,9 +289,9 @@ const uploadCSVProducts = async (req, res) => {
   }
 };
 
-// =======================
+
+
 // BUY PRODUCT (SALE)
-// =======================
 const buyProduct = async (req, res) => {
   try {
     const { productId, quantity } = req.body;

@@ -34,7 +34,7 @@ const AddSingleProduct = ({ onCancel, onSuccess }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  /* ---------- HANDLERS ---------- */
+
 
   const handleTextChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -74,7 +74,7 @@ const AddSingleProduct = ({ onCancel, onSuccess }) => {
     }
   };
 
-  /* ---------- SUBMIT ---------- */
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,7 +116,7 @@ const AddSingleProduct = ({ onCancel, onSuccess }) => {
     <form className="add-product-form" onSubmit={handleSubmit}>
       <h3 className="form-title">New Product</h3>
 
-      {/* IMAGE ROW */}
+     
       <div className="image-row">
         <div className="image-preview">
           {image ? image.name : "No image selected"}
@@ -133,7 +133,7 @@ const AddSingleProduct = ({ onCancel, onSuccess }) => {
         </label>
       </div>
 
-      {/* FORM GRID (LABEL | FIELD) */}
+      {/* FORM GRID  */}
       <div className="form-grid">
         <label>Product Name *</label>
         <input
@@ -218,7 +218,7 @@ const AddSingleProduct = ({ onCancel, onSuccess }) => {
         />
       </div>
 
-      {/* ACTIONS */}
+   
       <div className="form-actions">
         <button type="button" onClick={onCancel}>
           Discard

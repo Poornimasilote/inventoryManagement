@@ -7,7 +7,9 @@ const jwt = require("jsonwebtoken");
 const validatePassword = require("../utils/passwordValidator");
 const validateEmail = require("../utils/emailValidator");
 
-// SIGNUP
+
+
+// Signup
 const signup = async (req, res) => {
   try {
     let { name, email, password } = req.body;
@@ -82,7 +84,7 @@ const signup = async (req, res) => {
   }
 };
 
-// VERIFY  signup OTP
+// Verify  signup OTP
 const verifySignupOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -110,7 +112,7 @@ const verifySignupOtp = async (req, res) => {
   }
 };
 
-// LOGIN
+// Login
 const login = async (req, res) => {
   try {
     const email = req.body.email.trim().toLowerCase();
@@ -150,7 +152,7 @@ const login = async (req, res) => {
   }
 };
 
-// REFRESH TOKEN
+// Refresh Token
 const refreshAccessToken = (req, res) => {
   const token = req.cookies.refreshToken;
 
@@ -165,7 +167,7 @@ const refreshAccessToken = (req, res) => {
   }
 };
 
-// FORGOT PASSWORD
+// Forget password
 const forgotPassword = async (req, res) => {
   try {
     const email = req.body.email.trim().toLowerCase();
@@ -255,7 +257,7 @@ const resetPassword = async (req, res) => {
   }
 };
 
-// LOGOUT
+// Logout
 const logout = (req, res) => {
   res.clearCookie("refreshToken");
   res.json({ message: "Logged out successfully" });

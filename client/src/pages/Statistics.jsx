@@ -70,7 +70,7 @@ const Statistics = () => {
   };
 
   const handleDragOver = (e) => {
-    e.preventDefault(); // REQUIRED to allow drop
+    e.preventDefault(); // Required to allow drop
   };
 
 

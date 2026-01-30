@@ -272,7 +272,6 @@ background-color: #B6B9CF;
   z-index: 10000;
 }
 
-
 .modal-container {
   width: 550px;
   background: #ffffff;
@@ -282,8 +281,6 @@ background-color: #B6B9CF;
    z-index: 10001;
 }
 
-
-/* Header */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -345,7 +342,6 @@ background-color: #B6B9CF;
 
 
 /* ADD PRODUCT SCREEN */
-
 .add-product-form {
   margin-top: 10px;
   background-color: #ECECF4;
@@ -399,7 +395,7 @@ background-color: #B6B9CF;
   cursor: pointer;
 }
 
-/* ===== FORM GRID ===== */
+
 .form-grid {
   display: grid;
   grid-template-columns: 180px 1fr;
@@ -408,13 +404,13 @@ background-color: #B6B9CF;
   align-items: center;
 }
 
-/* Labels */
+
 .form-grid label {
   font-size: 13px;
   color: #374151;
 }
 
-/* Inputs */
+
 .form-grid input,
 .form-grid select {
   padding: 8px 10px;
@@ -431,7 +427,7 @@ background-color: #B6B9CF;
   border-color: #2563eb;
 }
 
-/* ===== ACTION BUTTONS ===== */
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -779,8 +775,8 @@ background-color: #B6B9CF;
     text-align: center;
   }
 
-  /* BUY → THREE DOTS */
 
+  /* buy - three dots */
   .buy-btn {
     background: transparent;
     border: none;

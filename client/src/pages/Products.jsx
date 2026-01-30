@@ -24,7 +24,7 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  /* ---------------- Debounce search ---------------- */
+  // Debounce Search
   useEffect(() => {
     const t = setTimeout(() => {
       setDebouncedSearch(search);
@@ -33,7 +33,8 @@ const Products = () => {
     return () => clearTimeout(t);
   }, [search]);
 
-  /* ---------------- Load products table ---------------- */
+
+ //Load products table
   const loadProducts = useCallback(async () => {
     try {
       setLoading(true);
@@ -47,7 +48,9 @@ const Products = () => {
     }
   }, [page, debouncedSearch]);
 
-  /* ---------------- Load inventory stats ---------------- */
+
+
+  //Load inventory stats
   const loadInventoryStats = async () => {
     try {
       const res = await getHomeDashboard();
@@ -81,12 +84,11 @@ const Products = () => {
     setAddMode(null);
     setPage(1);
     loadProducts();
-    loadInventoryStats(); //refresh cards
+    loadInventoryStats(); 
   };
 
   return (
     <div className="dashboard-container">
-      {/* HEADER */}
       <div className="products-top-bar">
         <h4>Products</h4>
 
@@ -102,7 +104,7 @@ const Products = () => {
 
       <hr />
 
-      {/* ================= LIST VIEW ================= */}
+    {/* list view */}
       {addMode === null && (
         <>
           <div className="card">
@@ -133,7 +135,7 @@ const Products = () => {
         </>
       )}
 
-      {/* ================= ADD SINGLE PRODUCT SCREEN ================= */}
+      {/* Add Single Product */}
       {addMode === "single" && (
         <>
           <div className="products-sub-header">
@@ -150,7 +152,7 @@ const Products = () => {
         </>
       )}
 
-      {/* ================= MODALS ================= */}
+     {/* Modals */}
       {showAddModal && (
         <AddProductModal
           onClose={() => setShowAddModal(false)}

@@ -1,15 +1,14 @@
 const Transaction = require("../models/transcationalModel");
 const Product = require("../models/productModel");
 
-// ==========================
-// HOME DASHBOARD
-// ==========================
+
+// Home dashboard
 const getHomeDashboard = async (req, res) => {
   try {
     const last7Days = new Date();
     last7Days.setDate(last7Days.getDate() - 7);
 
-    /* ===== SALES & PURCHASES ===== */
+    // Sales and purchase
     const sales = await Transaction.find({
       user: req.user._id,
       type: "SALE",
@@ -23,7 +22,7 @@ const getHomeDashboard = async (req, res) => {
     const salesAmount = sales.reduce((s, i) => s + i.amount, 0);
     const purchaseAmount = purchases.reduce((s, i) => s + i.amount, 0);
 
-    /* ===== INVENTORY ===== */
+    // Inventory
     const totalProducts = await Product.countDocuments({
       user: req.user._id,
     });
@@ -47,7 +46,7 @@ const getHomeDashboard = async (req, res) => {
       user: req.user._id,
     });
 
-    /* ===== LAST 7 DAYS ===== */
+   // last 7 days data
     const productsLast7Days = await Product.countDocuments({
       user: req.user._id,
       createdAt: { $gte: last7Days },
@@ -127,9 +126,8 @@ const getHomeDashboard = async (req, res) => {
   }
 };
 
-// ==========================
-// DASHBOARD GRAPH
-// ==========================
+
+// Dashboard Graph
 const getDashboardGraph = async (req, res) => {
   try {
     const range = req.query.range || "monthly";
@@ -184,9 +182,7 @@ const getDashboardGraph = async (req, res) => {
   }
 };
 
-// ==========================
-// DASHBOARD SUMMARY
-// ==========================
+// Dashboard Summary
 const getDashboardSummary = async (req, res) => {
   try {
     const sales = await Transaction.find({
@@ -214,9 +210,7 @@ const getDashboardSummary = async (req, res) => {
   }
 };
 
-// ==========================
-// TOP SELLING PRODUCTS
-// ==========================
+// Top Selling Products
 const getTopSellingProducts = async (req, res) => {
   try {
     const limit = Number(req.query.limit) || 5;
@@ -264,9 +258,7 @@ const getTopSellingProducts = async (req, res) => {
   }
 };
 
-// ==========================
-// LOW STOCK
-// ==========================
+// Low Stocks
 const getLowStockProducts = async (req, res) => {
   try {
     const products = await Product.find({
@@ -280,9 +272,7 @@ const getLowStockProducts = async (req, res) => {
   }
 };
 
-// ==========================
-// EXPIRING PRODUCTS
-// ==========================
+// Expiring Products
 const getExpiringProducts = async (req, res) => {
   try {
     const next30Days = new Date();
@@ -299,9 +289,7 @@ const getExpiringProducts = async (req, res) => {
   }
 };
 
-// ==========================
-// TOP STATS
-// ==========================
+// Top Stats
 const getTopStats = async (req, res) => {
   try {
     const sales = await Transaction.find({

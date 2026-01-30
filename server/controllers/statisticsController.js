@@ -1,7 +1,7 @@
 const Transaction = require("../models/transcationalModel");
 const Product = require("../models/productModel");
 
-// ================= SUMMARY CARDS =================
+// SUMMARY CARDS 
 const getStatisticsSummary = async (req, res) => {
   try {
     const sales = await Transaction.find({
@@ -36,7 +36,7 @@ const getStatisticsSummary = async (req, res) => {
   }
 };
 
-// ================= GRAPH =================
+// GRAPH 
 const getStatisticsGraph = async (req, res) => {
   try {
     const range = req.query.range || "monthly";
@@ -88,7 +88,7 @@ const getStatisticsGraph = async (req, res) => {
   }
 };
 
-// ================= TOP PRODUCTS =================
+//  TOP PRODUCTS 
 const getStatisticsTopProducts = async (req, res) => {
   try {
     const data = await Transaction.aggregate([

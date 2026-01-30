@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 
-// REGISTER SCALES (CRITICAL)
+// REGISTER SCALES 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const SalesGraph = () => {

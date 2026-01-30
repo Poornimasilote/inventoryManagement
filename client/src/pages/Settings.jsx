@@ -23,7 +23,7 @@ const Settings = () => {
   const { updateUser } = useAuth();
 
 
-  /* ================= LOAD PROFILE ================= */
+  // Load Profile
   useEffect(() => {
     const loadProfile = async () => {
       try {
@@ -38,7 +38,8 @@ const Settings = () => {
     loadProfile();
   }, []);
 
-  /* ================= PASSWORD VALIDATION ================= */
+
+  //Password Validation
   const passwordRules = {
     length: password.length >= 8,
     uppercase: /[A-Z]/.test(password),
@@ -118,20 +119,19 @@ const Settings = () => {
 
   return (
     <div className="settings-container">
-      {/* HEADER */}
       <div className="settings-header">
         <h4>Settings</h4>
       </div>
 
       <hr />
 
-      {/* CARD */}
+    
       <div className="card settings-card">
         <h3>Edit Profile</h3>
         <div className="settings-form">
           <hr />
 
-          {/* FIRST NAME */}
+         
           <div className="settings-field">
             <label>First Name</label>
             <input
@@ -141,19 +141,17 @@ const Settings = () => {
           </div>
 
 
-          {/* LAST NAME */}
           <div className="settings-field">
             <label>Last Name</label>
             <input value={profile.lastName} disabled />
           </div>
 
-          {/* EMAIL */}
+        
           <div className="settings-field">
             <label>Email</label>
             <input value={profile.email} disabled />
           </div>
 
-          {/* NEW PASSWORD */}
           <div className="settings-field password-field">
             <label>New Password</label>
             <div className="password-input-wrapper">
@@ -171,7 +169,7 @@ const Settings = () => {
               />
             </div>
 
-            {/* PASSWORD CRITERIA */}
+           
             <ul className="password-rules">
               <li className={passwordRules.length ? "valid" : ""}>
                 At least 8 characters
@@ -191,7 +189,7 @@ const Settings = () => {
             </ul>
           </div>
 
-          {/* CONFIRM PASSWORD */}
+         
           <div className="settings-field password-field">
             <label>Confirm Password</label>
             <div className="password-input-wrapper">
@@ -210,7 +208,7 @@ const Settings = () => {
             </div>
           </div>
 
-          {/* ACTION */}
+         
           <div className="settings-actions">
             <button
               className="save-btn"

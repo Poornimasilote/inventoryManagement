@@ -39,12 +39,11 @@ const BuyProductModal = ({ product, onClose, onSuccess }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-container buy-modal">
-        {/* CLOSE ICON */}
+     
         <button className="modal-close" onClick={onClose}>
           ×
         </button>
 
-        {/* CENTER CONTENT */}
         <div className="buy-content">
           <div className="buy-field product">
             {product.name}

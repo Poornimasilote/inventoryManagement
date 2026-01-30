@@ -1,12 +1,11 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 
-/* =======================
-   GET PROFILE
-======================= */
+
+ //  GET PROFILE
 const getProfile = async (req, res) => {
   try {
-    const user = req.user; // already populated by protect
+    const user = req.user; 
 
     res.json({
       name: user.name,
@@ -18,7 +17,8 @@ const getProfile = async (req, res) => {
   }
 };
 
-/* UPDATE PROFILE*/
+
+//UPDATE PROFILE
 const updateProfile = async (req, res) => {
   try {
     const { name } = req.body;
@@ -44,7 +44,8 @@ const updateProfile = async (req, res) => {
   }
 };
 
-/*         CHANGE PASSWORD     */
+
+//CHANGE PASSWORD     
 const changePassword = async (req, res) => {
   try {
     const { password } = req.body;

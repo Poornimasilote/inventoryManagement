@@ -153,14 +153,14 @@ const InvoiceTable = ({
         </table>
       </div>
 
-      {/* PAGINATION (REUSED COMPONENT) */}
+      
       <Pagination
         page={page}
         totalPages={totalPages}
        onPageChange={onPageChange}
       />
 
-      {/* VIEW INVOICE MODAL */}
+    
       {viewInvoice && (
         <InvoiceViewModal
           invoice={viewInvoice}

@@ -146,7 +146,6 @@ const uploadCSVProducts = async (req, res) => {
       return res.status(400).json({ message: "CSV file is empty" });
     }
 
-    
     const normalize = (h) => h.toLowerCase().replace(/[\s_]/g, "");
 
     const parseNumber = (value) => {
@@ -157,11 +156,30 @@ const uploadCSVProducts = async (req, res) => {
 
     const parseDate = (value) => {
       if (!value) return null;
-      const date = new Date(value);
-      return isNaN(date.getTime()) ? null : date;
+
+      // Excel serial date (e.g. 45291)
+      if (!isNaN(value) && Number(value) > 30000) {
+        const excelEpoch = new Date(1899, 11, 30);
+        return new Date(excelEpoch.getTime() + Number(value) * 86400000);
+      }
+
+      // YYYY-MM-DD 
+      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        const d = new Date(value);
+        return isNaN(d.getTime()) ? null : d;
+      }
+
+      // DD-MM-YYYY or DD/MM/YYYY (Excel default)
+      const match = value.match(/^(\d{2})[-/](\d{2})[-/](\d{4})$/);
+      if (match) {
+        const [, dd, mm, yyyy] = match;
+        const d = new Date(`${yyyy}-${mm}-${dd}`);
+        return isNaN(d.getTime()) ? null : d;
+      }
+
+      return null;
     };
 
-    
     const rawHeaders = lines[0].split(",").map((h) => h.trim());
     const normalizedHeaders = rawHeaders.map(normalize);
 
@@ -205,12 +223,10 @@ const uploadCSVProducts = async (req, res) => {
     let successCount = 0;
     const errorRows = [];
 
- 
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].split(",").map((v) => v.trim());
       const getValue = (field) => values[headerIndexMap[field]] || "";
 
-     
       for (const field of mandatoryFields) {
         if (!getValue(field)) {
           return res.status(400).json({
@@ -219,7 +235,6 @@ const uploadCSVProducts = async (req, res) => {
         }
       }
 
-      
       const quantity = parseNumber(getValue("quantity"));
       const threshold = parseNumber(getValue("threshold"));
       const price = parseNumber(getValue("price"));
@@ -234,8 +249,8 @@ const uploadCSVProducts = async (req, res) => {
         quantity === 0
           ? "Out of Stock"
           : quantity <= threshold
-          ? "Low Stock"
-          : "In Stock";
+            ? "Low Stock"
+            : "In Stock";
 
       try {
         const createdProduct = await Product.create({
@@ -275,7 +290,6 @@ const uploadCSVProducts = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 
 // =======================
 // BUY PRODUCT (SALE)

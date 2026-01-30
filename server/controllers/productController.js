@@ -22,7 +22,6 @@ const PRODUCT_CATEGORIES = [
   "Other",
 ];
 
-
 // =======================
 // GET PRODUCTS (USER SAFE)
 // =======================
@@ -55,7 +54,6 @@ const getProducts = async (req, res) => {
   }
 };
 
-
 // =======================
 // CREATE PRODUCT (PURCHASE)
 // =======================
@@ -73,7 +71,7 @@ const createProduct = async (req, res) => {
     } = req.body;
 
     const normalizedCategory = PRODUCT_CATEGORIES.find(
-      (c) => c.toLowerCase() === category.toLowerCase()
+      (c) => c.toLowerCase() === category.toLowerCase(),
     );
 
     if (!normalizedCategory) {
@@ -104,8 +102,8 @@ const createProduct = async (req, res) => {
       Number(quantity) === 0
         ? "Out of Stock"
         : Number(quantity) <= Number(threshold)
-        ? "Low Stock"
-        : "In Stock";
+          ? "Low Stock"
+          : "In Stock";
 
     const product = await Product.create({
       user: req.user._id,
@@ -135,7 +133,6 @@ const createProduct = async (req, res) => {
   }
 };
 
-
 // =======================
 // CSV UPLOAD (PURCHASE)
 // =======================
@@ -149,9 +146,22 @@ const uploadCSVProducts = async (req, res) => {
       return res.status(400).json({ message: "CSV file is empty" });
     }
 
-    const normalize = (h) =>
-      h.toLowerCase().replace(/[\s_]/g, "");
+    
+    const normalize = (h) => h.toLowerCase().replace(/[\s_]/g, "");
 
+    const parseNumber = (value) => {
+      if (value === undefined || value === null) return null;
+      const num = Number(value);
+      return Number.isFinite(num) ? num : null;
+    };
+
+    const parseDate = (value) => {
+      if (!value) return null;
+      const date = new Date(value);
+      return isNaN(date.getTime()) ? null : date;
+    };
+
+    
     const rawHeaders = lines[0].split(",").map((h) => h.trim());
     const normalizedHeaders = rawHeaders.map(normalize);
 
@@ -169,9 +179,7 @@ const uploadCSVProducts = async (req, res) => {
     const headerIndexMap = {};
 
     Object.entries(headerAliases).forEach(([key, aliases]) => {
-      const index = normalizedHeaders.findIndex((h) =>
-        aliases.includes(h)
-      );
+      const index = normalizedHeaders.findIndex((h) => aliases.includes(h));
       if (index !== -1) {
         headerIndexMap[key] = index;
       }
@@ -186,7 +194,6 @@ const uploadCSVProducts = async (req, res) => {
       "threshold",
     ];
 
-  
     for (const field of mandatoryFields) {
       if (headerIndexMap[field] === undefined) {
         return res.status(400).json({
@@ -198,13 +205,12 @@ const uploadCSVProducts = async (req, res) => {
     let successCount = 0;
     const errorRows = [];
 
-     
+ 
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].split(",").map((v) => v.trim());
+      const getValue = (field) => values[headerIndexMap[field]] || "";
 
-      const getValue = (field) =>
-        values[headerIndexMap[field]] || "";
-
+     
       for (const field of mandatoryFields) {
         if (!getValue(field)) {
           return res.status(400).json({
@@ -213,9 +219,16 @@ const uploadCSVProducts = async (req, res) => {
         }
       }
 
-      const quantity = Number(getValue("quantity"));
-      const threshold = Number(getValue("threshold"));
-      const price = Number(getValue("price"));
+      
+      const quantity = parseNumber(getValue("quantity"));
+      const threshold = parseNumber(getValue("threshold"));
+      const price = parseNumber(getValue("price"));
+
+      if (quantity === null || threshold === null || price === null) {
+        return res.status(400).json({
+          message: `Upload stopped. Row ${i + 1} has invalid numeric value`,
+        });
+      }
 
       const status =
         quantity === 0
@@ -236,9 +249,7 @@ const uploadCSVProducts = async (req, res) => {
           category: PRODUCT_CATEGORIES.includes(getValue("category"))
             ? getValue("category")
             : "Other",
-          expiryDate: getValue("expiryDate")
-            ? new Date(getValue("expiryDate"))
-            : null,
+          expiryDate: parseDate(getValue("expiryDate")),
           status,
         });
 
@@ -264,7 +275,6 @@ const uploadCSVProducts = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 
 
 // =======================
@@ -297,8 +307,8 @@ const buyProduct = async (req, res) => {
       product.quantity === 0
         ? "Out of Stock"
         : product.quantity <= product.threshold
-        ? "Low Stock"
-        : "In Stock";
+          ? "Low Stock"
+          : "In Stock";
 
     await product.save();
 
@@ -332,7 +342,6 @@ const buyProduct = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 
 module.exports = {
   getProducts,

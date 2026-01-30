@@ -19,8 +19,8 @@ const AddProductModal = ({ onClose, onSelectSingle }) => {
             <div
               className="option-card"
               onClick={() => {
-                onSelectSingle(); // 👉 tell Products page
-                onClose();        // 👉 close modal
+                onSelectSingle(); // tell Products page
+                onClose();        // close modal
               }}
             >
               <h4>Individual Product</h4>

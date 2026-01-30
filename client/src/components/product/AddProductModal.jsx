@@ -2,7 +2,7 @@ import { useState } from "react";
 import UploadCSVModal from "./UploadCSVModal";
 import { createPortal } from "react-dom";
 
-const AddProductModal = ({ onClose, onSelectSingle }) => {
+const AddProductModal = ({ onClose, onSelectSingle, onSuccess }) => {
   const [mode, setMode] = useState(null); // null | "csv"
 
   return createPortal(
@@ -42,6 +42,7 @@ const AddProductModal = ({ onClose, onSelectSingle }) => {
           <UploadCSVModal
             onCancel={() => setMode(null)}
             onSuccess={() => {
+              onSuccess();
               setMode(null);
               onClose();
             }}

@@ -158,6 +158,7 @@ const Products = () => {
             setShowAddModal(false);
             setAddMode("single");
           }}
+           onSuccess={handleAddSuccess}
         />
       )}
 

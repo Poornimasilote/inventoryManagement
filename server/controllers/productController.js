@@ -145,7 +145,37 @@ const uploadCSVProducts = async (req, res) => {
     fs.unlinkSync(req.file.path);
 
     const lines = fileData.split("\n").filter((l) => l.trim() !== "");
-    const headers = lines[0].split(",").map((h) => h.trim());
+    if (lines.length < 2) {
+      return res.status(400).json({ message: "CSV file is empty" });
+    }
+
+    const normalize = (h) =>
+      h.toLowerCase().replace(/[\s_]/g, "");
+
+    const rawHeaders = lines[0].split(",").map((h) => h.trim());
+    const normalizedHeaders = rawHeaders.map(normalize);
+
+    const headerAliases = {
+      name: ["name", "productname"],
+      productId: ["productid", "sku"],
+      price: ["price", "cost"],
+      quantity: ["quantity", "qty"],
+      unit: ["unit"],
+      threshold: ["threshold", "minstock"],
+      category: ["category"],
+      expiryDate: ["expirydate", "expiry"],
+    };
+
+    const headerIndexMap = {};
+
+    Object.entries(headerAliases).forEach(([key, aliases]) => {
+      const index = normalizedHeaders.findIndex((h) =>
+        aliases.includes(h)
+      );
+      if (index !== -1) {
+        headerIndexMap[key] = index;
+      }
+    });
 
     const mandatoryFields = [
       "name",
@@ -156,8 +186,9 @@ const uploadCSVProducts = async (req, res) => {
       "threshold",
     ];
 
+  
     for (const field of mandatoryFields) {
-      if (!headers.includes(field)) {
+      if (headerIndexMap[field] === undefined) {
         return res.status(400).json({
           message: `Mandatory column missing: ${field}`,
         });
@@ -167,56 +198,64 @@ const uploadCSVProducts = async (req, res) => {
     let successCount = 0;
     const errorRows = [];
 
+     
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].split(",").map((v) => v.trim());
-      const row = {};
 
-      headers.forEach((h, index) => {
-        row[h] = values[index];
-      });
+      const getValue = (field) =>
+        values[headerIndexMap[field]] || "";
 
       for (const field of mandatoryFields) {
-        if (!row[field]) {
+        if (!getValue(field)) {
           return res.status(400).json({
             message: `Upload stopped. Row ${i + 1} missing mandatory field: ${field}`,
           });
         }
       }
 
+      const quantity = Number(getValue("quantity"));
+      const threshold = Number(getValue("threshold"));
+      const price = Number(getValue("price"));
+
       const status =
-        Number(row.quantity) === 0
+        quantity === 0
           ? "Out of Stock"
-          : Number(row.quantity) <= Number(row.threshold)
+          : quantity <= threshold
           ? "Low Stock"
           : "In Stock";
 
       try {
         const createdProduct = await Product.create({
           user: req.user._id,
-          name: row.name,
-          productId: row.productId,
-          price: Number(row.price),
-          quantity: Number(row.quantity),
-          unit: row.unit,
-          threshold: Number(row.threshold),
-          category: PRODUCT_CATEGORIES.includes(row.category)
-            ? row.category
+          name: getValue("name"),
+          productId: getValue("productId"),
+          price,
+          quantity,
+          unit: getValue("unit"),
+          threshold,
+          category: PRODUCT_CATEGORIES.includes(getValue("category"))
+            ? getValue("category")
             : "Other",
-          expiryDate: row.expiryDate ? new Date(row.expiryDate) : null,
+          expiryDate: getValue("expiryDate")
+            ? new Date(getValue("expiryDate"))
+            : null,
           status,
         });
 
         await Transaction.create({
           user: req.user._id,
           product: createdProduct._id,
-          quantity: Number(row.quantity),
-          amount: Number(row.quantity) * Number(row.price),
+          quantity,
+          amount: quantity * price,
           type: "PURCHASE",
         });
 
         successCount++;
       } catch (err) {
-        errorRows.push({ row: i + 1, error: err.message });
+        errorRows.push({
+          row: i + 1,
+          error: err.message,
+        });
       }
     }
 
@@ -225,6 +264,7 @@ const uploadCSVProducts = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 
 // =======================

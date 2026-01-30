@@ -355,7 +355,7 @@ background-color: #B6B9CF;
   
 }
 
-/* Title */
+
 .form-title {
   font-size: 16px;
   font-weight: 600;
@@ -363,7 +363,7 @@ background-color: #B6B9CF;
   margin-bottom: 16px;
 }
 
-/* ===== IMAGE ROW ===== */
+
 .image-row {
   display: flex;
   align-items: center;
@@ -399,7 +399,7 @@ background-color: #B6B9CF;
   cursor: pointer;
 }
 
-/* ===== FORM GRID ===== */
+/* FORM GRID */
 .form-grid {
   display: grid;
   grid-template-columns: 180px 1fr;
@@ -431,7 +431,7 @@ background-color: #B6B9CF;
   border-color: #2563eb;
 }
 
-/* ===== ACTION BUTTONS ===== */
+/* ACTION BUTTONS  */
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -482,14 +482,14 @@ background-color: #B6B9CF;
   padding: 12px;
   border-radius: 8px;
   border: 1px dashed #334155;
-  background: #020617;
-  color: #94a3b8;
+  background: #ffffff;
+  color: #000000;
 }
 
 .csv-file-name {
   margin-top: 8px;
   font-size: 13px;
-  color: #94a3b8;
+  color: #000000;
 }
 
 .csv-result h4 {

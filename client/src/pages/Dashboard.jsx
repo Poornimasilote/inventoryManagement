@@ -26,17 +26,6 @@ const Dashboard = () => {
     try {
       setLoading(true);
 
-      // CHECK CACHE FIRST
-      const cached = sessionStorage.getItem("dashboardData");
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        setSummary(parsed.summary);
-        setGraph(parsed.graph);
-        setTopProducts(parsed.topProducts);
-        return;
-      }
-
-      // FETCH IN PARALLEL
       const [s, g, t] = await Promise.all([
         getHomeDashboard(),
         getDashboardGraph("monthly"),
@@ -47,15 +36,6 @@ const Dashboard = () => {
       setGraph(g.data);
       setTopProducts(t.data);
 
-      // SAVE TO CACHE
-      sessionStorage.setItem(
-        "dashboardData",
-        JSON.stringify({
-          summary: s.data,
-          graph: g.data,
-          topProducts: t.data,
-        })
-      );
     } catch (err) {
       console.error("Dashboard load failed", err);
     } finally {
